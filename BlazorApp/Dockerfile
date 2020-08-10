@@ -18,6 +18,11 @@ RUN dotnet publish "BlazorApp.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
+RUN apt-get update; \
+  sudo apt-get install -y apt-transport-https && \
+  sudo apt-get update && \
+  sudo apt-get install -y aspnetcore-runtime-3.1
+  
 COPY --from=publish /app/publish .
 #ENTRYPOINT ["dotnet", "BlazorApp.dll"]
 CMD dotnet BlazorApp.dll
